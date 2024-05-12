@@ -11,7 +11,6 @@ struct Point {
     y: f32,
 }
 
-
 impl Point {
     fn move_x(&mut self, amount: f32) {
         self.x += amount;
@@ -21,6 +20,18 @@ impl Point {
     }
 }
 
+fn draw_alien(origin: Vector2, d: &mut RaylibDrawHandle) {
+    let apply = |i: Vector2| {
+        return i.add(origin);
+    };
+
+    d.draw_triangle(
+        apply(rvec2(0.0, 1.0)),
+        apply(rvec2(-1.0, 0.0)),
+        apply(rvec2(1.0, 0.0)),
+        Color::ORANGE,
+    );
+}
 
 fn draw_line(origin: Vector2, size: f32, points: &[Vector2], d: &mut RaylibDrawHandle) {
     let apply = |mut i: Vector2| {
@@ -43,7 +54,6 @@ fn main() {
         .size(WINDOW_WIDTH, WINDOW_HEIGHT)
         .title("Space Invaders")
         .build();
-
 
     rl.set_target_fps(60);
 
@@ -69,7 +79,6 @@ fn main() {
             };
             projectiles.push(i);
         }
-
 
         if point.x <= 40.0 {
             point.x = 40.0;
@@ -98,6 +107,8 @@ fn main() {
             }
         }
 
+        draw_alien(rvec2(100.0, 100.0), &mut d);
+
         draw_line(
             rvec2(point.x, point.y),
             20.0,
@@ -111,4 +122,3 @@ fn main() {
         );
     }
 }
-
